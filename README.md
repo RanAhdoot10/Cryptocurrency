@@ -13,8 +13,6 @@ docker-compose up -d
 
 Navigate to `localhost:3000` to see Grafana login page.
 
-For more detailed information visit: https://www.thepylot.dev/setup-grafana-with-prometheus-for-python-projects-docker-included/
-
 # Running the application
 docker-compose up -d
 # Prometheus server URL
