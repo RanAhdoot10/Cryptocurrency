@@ -4,18 +4,22 @@ This project includes the implementation of how to set up service monitoring for
 
 ## Getting Started
 
-Run docker services
+Run Docker Services
 
 ```
 docker-compose up -d
-
 ```
 
 Navigate to `localhost:3000` to see Grafana login page.
 
-# Running the application
-docker-compose up -d
-# Prometheus server URL
+Prometheus server URL
+
+```
 http://prometheus:9090
-# Cryptocurrency endpoint
+```
+
+Cryptocurrency endpoint
+
+```
 https://coinstats.app/coins/
+```
