@@ -4,13 +4,17 @@ import random
 import time
 import vars
 
-def fetch_top_popular_coins(endpoint):
+def get_json_response(endpoint):
     payload = {}
     headers = {}
-    popular_coins_response = requests.request("GET", endpoint, headers=headers, data=payload)
-    popular_coins_json_response = popular_coins_response.json()
-    popular_coins_data = popular_coins_json_response["coins"]
-    
+    response = requests.request("GET", endpoint, headers=headers, data=payload)
+    json_response = response.json()
+    return json_response
+
+def fetch_top_popular_coins(endpoint):
+    json_response = get_json_response(endpoint)
+    popular_coins_data = json_response["coins"]
+        
     for coin in popular_coins_data:
         name = coin['i']
         vars.popular_coins_endpoints.update({f'{vars.COINS_DATA_ENDPOINT}{name}': f'{name}'})
@@ -26,11 +30,8 @@ def create_popular_coin_metric(endpoint, label):
     vars.popular_coins_metrics[endpoint] = gauge_metric_hour, gauge_metric_week
 
 def fetch_cheapest_coins(endpoint):
-    payload = {}
-    headers = {}
-    cheapest_coins_response = requests.request("GET", endpoint, headers=headers, data=payload)
-    cheapest_coins_json_response = cheapest_coins_response.json()
-    cheapest_coins_data = cheapest_coins_json_response["coins"]
+    json_response = get_json_response(endpoint)
+    cheapest_coins_data = json_response["coins"]
     
     for coin in cheapest_coins_data:
         name = coin['i']
@@ -56,10 +57,7 @@ def create_cheapest_coins_metric(endpoint, label):
 def fetch_data():
     # Fetching data for the popular coins
     for endpoint, label in vars.popular_coins_endpoints.items():
-        payload = {}
-        headers = {}
-        response = requests.request("GET", endpoint, headers=headers, data=payload)
-        json_response = response.json()
+        json_response = get_json_response(endpoint)
         hour_trend = json_response['p1']
         week_trend = json_response['p7']
         gauge_metric_hour = vars.popular_coins_metrics.get(endpoint)[0]
@@ -69,10 +67,7 @@ def fetch_data():
     
     # Fetching data for the cheapest coins
     for endpoint, label in vars.cheapest_coins_endpoints.items():
-        payload = {}
-        headers = {}
-        response = requests.request("GET", endpoint, headers=headers, data=payload)
-        json_response = response.json()
+        json_response = get_json_response(endpoint)
         price = json_response['pu']
         price = format(price, '.8f')
         gauge_metric = vars.cheapest_coins_metrics[endpoint]
