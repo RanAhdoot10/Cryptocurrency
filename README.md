@@ -11,8 +11,9 @@ docker-compose up -d
 ```
 
 Navigate to `localhost:3000` to see Grafana login page.
+For displaying the data in pct, navigate to "Panel options", select "Standard options", under the "Unit" section, choose "Percent (0-100)"
 
-Prometheus server URL
+Prometheus Server URL
 
 ```
 http://prometheus:9090
